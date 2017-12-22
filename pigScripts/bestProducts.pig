@@ -6,11 +6,13 @@ products = load '/user/grupo6d4/warehouse/dualcore/products'
 
 ratings_grouped = group ratings by prod_id;
 ratings_count = foreach ratings_grouped generate AVG(ratings.rating) as prod_rating, $0;
+result = JOIN ratings_count BY group, products BY group;
+
 
 all_rating = ORDER ratings_count BY prod_rating DESC;
 top_rating = LIMIT all_rating 10; -- reduce to 10 elements
 
-result = JOIN top_rating BY $1, products BY prod_id;
+-- result = JOIN top_rating BY group, products BY group;
 
-dump result;
-ILLUSTRATE result;
+dump top_rating;
+ILLUSTRATE;
