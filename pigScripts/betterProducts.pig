@@ -11,10 +11,10 @@ ratings_count = FOREACH ratings_grouped GENERATE
 
 all_rating = ORDER ratings_count BY prod_rating DESC, votes DESC;
 top_rating = LIMIT all_rating 10; -- reduce to 10 elements
-result = JOIN top_rating BY prod_id, products BY prod_id;
+better = JOIN top_rating BY prod_id, products BY prod_id;
 
 rmf /user/grupo6d4/tmp/better_products -- remove old elements
-store result into '/user/grupo6d4/tmp/better_products';
+store better into '/user/grupo6d4/tmp/better_products';
 
-DUMP result;
-ILLUSTRATE result;
+DUMP better;
+ILLUSTRATE better;

@@ -7,9 +7,10 @@ products = LOAD '/user/grupo6d4/warehouse/dualcore/products'
 ratings_grouped = GROUP ratings BY prod_id;
 ratings_count = FOREACH ratings_grouped GENERATE
   AVG(ratings.rating) AS prod_rating,
-    COUNT(ratings.rating) AS number_votes, $0 AS prod_id;
+  COUNT(ratings.rating) AS number_votes,
+  $0 AS prod_id;
 
-all_ratings = ORDER ratings_count BY number_votes DESC, prod_rating ASC, ;
+all_ratings = order ratings_count BY prod_rating ASC, number_votes DESC;
 worse = LIMIT all_ratings 10; -- reduce to 10 elements
 result = JOIN worse BY prod_id, products BY prod_id;
 
@@ -17,4 +18,3 @@ rmf /user/grupo6d4/tmp/worse_products -- remove old data
 STORE result into '/user/grupo6d4/tmp/worse_products';
 
 DUMP result;
-ILLUSTRATE result;
