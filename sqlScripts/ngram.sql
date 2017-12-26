@@ -25,3 +25,15 @@ WHERE r.prod_id IN (
         GROUP BY r.prod_id, p.brand, p.name, p.price, p.cost, p.shipping_wt
         ORDER BY promedio_rating ASC, cantidad_evaluaciones DESC
         LIMIT 1) as worse );
+
+
+--- Caso importante
+-- Bigramas
+SELECT EXPLODE(NGRAMS(SENTENCES(LOWER(r.message)), 2, 5)) AS 2ngram
+FROM ratings as r
+WHERE r.prod_id IN (1274673); --- worse product many comments
+
+-- Trigramas
+SELECT EXPLODE(NGRAMS(SENTENCES(LOWER(r.message)), 3, 5)) AS 3ngram
+FROM ratings as r
+WHERE r.prod_id IN (1273720);
